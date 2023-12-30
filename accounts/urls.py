@@ -1,3 +1,6 @@
 from django.urls import path
 
-urlpatterns = []
+# from .views import api_login,  api_logout
+
+urlpatterns = [
+]
