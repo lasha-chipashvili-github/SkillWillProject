@@ -8,8 +8,8 @@ class ProductCategory(models.Model):
     slug = models.SlugField(unique=True)
     def __str__(self):
         if self.parent_category_id:
-            return self.category_name, self.parent_category_id
-        return self.category_name
+            return f'{self.product_category}, {self.parent_category_id}'
+        return f'{self.product_category}'
 
 
 class Size(models.Model):
@@ -42,7 +42,7 @@ class Product(models.Model):
     slug = models.SlugField(unique=True)
 
     def __str__(self):
-        return self.name
+        return self.product_name
 
 class Item(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='items')

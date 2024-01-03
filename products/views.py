@@ -16,6 +16,8 @@ from .serializers import (
     BrandSerializer,
     ColourSerializer,
 )
+
+
 # Create your views here.
 
 class ProductList(generics.ListAPIView):

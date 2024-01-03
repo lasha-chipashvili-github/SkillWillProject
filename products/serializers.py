@@ -32,8 +32,6 @@ class BrandSerializer(serializers.ModelSerializer):
         )
 
 
-
-
 class ColourSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -48,7 +46,7 @@ class ColourSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
-        models = Product
+        model = Product
         fields = (
             'id',
             'product_name',
@@ -56,11 +54,12 @@ class ProductSerializer(serializers.ModelSerializer):
             'product_category',
             'slug',
         )
+        depth = 10
 
 class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
-        models = Item
+        model = Item
         fields = (
             'id',
             'product',
