@@ -41,6 +41,7 @@ class Product(models.Model):
     product_category = models.ForeignKey(ProductCategory, on_delete=models.PROTECT, related_name='products')
     product_brand = models.ForeignKey(Brand, on_delete=models.PROTECT, related_name='products')
     slug = models.SlugField(editable=True, unique=True)
+    # cover = models.ImageField(upload_to='covers/', null=True, blank=True)
 
     def __str__(self):
         return self.product_name

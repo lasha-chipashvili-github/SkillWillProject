@@ -37,32 +37,20 @@ class BasketCreateView(generics.CreateAPIView):
             else:
                 item.is_available = False
 
+        else:
+            return Response("მარაგში მოთხოვნილი რაოდენობის ნივთი არ არის."
+                            "დარჩენილია მხოლოდ {item.stock} ნივთი", status=status.HTTP_400_BAD_REQUEST)
 
-        # if item.stock >= amount:
-        #     print("it's more")
-        #     basket, created = Basket.objects.get_or_create(owner=owner, item=item)
-        #     ("it's error")
-        #     if not created:
-        #         print("not created")
-        #
-        #         item.stock -= amount
-        #         print(f"stock = {item.stock}")
-        #         item.save()
-        #         print("stock decreased")
-        #         serializer.save()
-        #         print("basket saved")
-        #         return redirect('basket_list')
-        #
-        #     else:
-        #         print("created")
-        #         Basket.objects.create(owner=owner, item=item, amount=amount)
-        #
-        #     serializer.save(basket=basket)
-        #     return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 
 
 class BasketDetailView(generics.RetrieveUpdateDestroyAPIView):
-    pass
+    serializer_class = BasketSerializer
+    queryset = Basket.objects.all()
+
+
+
+
+
 
