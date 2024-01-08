@@ -67,6 +67,9 @@ class ItemSerializer(serializers.ModelSerializer):
             'colour',
             'date_of_addition',
             'price',
+            'stock',
             'is_available'
         )
+        depth = 10
+        lookup_field = 'slug'
 

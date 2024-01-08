@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # Local
     'accounts.apps.AccountsConfig',
     'products.apps.ProductsConfig',
+    'baskets.apps.BasketsConfig'
 
 ]
 
@@ -159,6 +160,8 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
+ACCOUNT_USERNAME_REQUIRED = False
+
 COSR_ALLOWED_ORIGINS = (
     'http://127.0.0.1:8000',
     'http://127.0.0.1:3000',
@@ -181,3 +184,16 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
     # OTHER SETTINGS
 }
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
