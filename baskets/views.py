@@ -48,6 +48,7 @@ class BasketCreateView(generics.CreateAPIView):
 class BasketDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BasketSerializer
     queryset = Basket.objects.all()
+    # http_method_names = მეთოდების დაშვება
 
 
 

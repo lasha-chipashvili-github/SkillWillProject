@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import ProductCategory, Size,  Brand, Colour, Product, Item
+from .models import ProductCategory, Size,  Brand, Colour, Product, Item, ProductImage
 
 class ProductCategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -43,8 +43,14 @@ class ColourSerializer(serializers.ModelSerializer):
         )
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = ['product', 'files']
 
+
+class ProductSerializer(serializers.ModelSerializer):
+    files = ProductImageSerializer(read_only=True, many=True)
     class Meta:
         model = Product
         fields = (
@@ -53,6 +59,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'product_description',
             'product_category',
             'slug',
+            'files',
         )
         depth = 10
 

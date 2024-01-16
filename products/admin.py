@@ -1,12 +1,12 @@
 from django.contrib import admin
 
 from .models import (
-    Product, ProductCategory, Size, Colour, Brand, Item
+    Product, ProductCategory, Size, Colour, Brand, Item, ProductImage
 )
 
 # Register your models here.
 class ProductAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("product_category", "product_brand", "product_name", )}
+    prepopulated_fields = {"slug": ("product_name", )}
 
 admin.site.register(Product, ProductAdmin)
 
@@ -36,4 +36,11 @@ class ColourAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("colour",)}
 
 admin.site.register(Colour, ColourAdmin)
+
+
+
+
+admin.site.register(ProductImage)
+# admin.site.register(ItemImage)
+
 
