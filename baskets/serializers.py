@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from products.models import Item
-from .models import Basket
+from .models import Basket, Favorite
 
 
 class BasketSerializer(serializers.ModelSerializer):
@@ -29,3 +29,10 @@ class BasketPUTSerializer(serializers.ModelSerializer):
                 'date_modified'
                   ]
 
+class FavoriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Favorite
+        fields = [
+            'user',
+            'product'
+        ]

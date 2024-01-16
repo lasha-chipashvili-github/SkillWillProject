@@ -2,7 +2,10 @@ from django.http import JsonResponse
 from django.views.generic import DetailView
 from rest_framework import generics, viewsets
 from django.views import generic
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import Response
+from rest_framework import filters
 
 from .models import (
     Item,
@@ -33,6 +36,9 @@ class ProductList(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['product_name', 'product_description']
+
 
 class ProductView(generics.RetrieveAPIView):
     authentication_classes = []
@@ -40,18 +46,18 @@ class ProductView(generics.RetrieveAPIView):
 
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    lookup_field = 'slug'
+    lookup_field = 'prod_slug'
 
 class ItemList(generics.ListAPIView):
-    authentication_classes = [] #disables authentication
+    authentication_classes = [] # disables authentication
     permission_classes = []  # disables permission
 
     # queryset = Item.objects.all()
     serializer_class = ItemSerializer
 
     def get_queryset(self):
-        product_slug = self.kwargs['slug']
-        product_id = Product.objects.get(slug=product_slug)
+        product_slug = self.kwargs['prod_slug']
+        product_id = Product.objects.get(prod_slug=product_slug)
         queryset = Item.objects.filter(product_id=product_id)
         return queryset
 
@@ -63,11 +69,5 @@ class ItemView(generics.RetrieveAPIView):
 
     queryset = Item.objects.filter(is_available=True)
     serializer_class = ItemSerializer
-    lookup_field = 'slug'
-
-
-
-
-
-
+    lookup_field = 'id'
 

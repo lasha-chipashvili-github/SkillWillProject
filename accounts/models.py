@@ -2,7 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 # from django.core.validators import MinLengthValidator
 
-# Create your models here.
+from products.models import Product
+
 class CustomUser(AbstractUser):
     email = models.EmailField(max_length=320, unique=True)
 

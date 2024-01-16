@@ -6,13 +6,13 @@ from .models import (
 
 # Register your models here.
 class ProductAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("product_name", )}
+    prepopulated_fields = {"prod_slug": ("product_name", )}
 
 admin.site.register(Product, ProductAdmin)
 
 
 class ItemAdimn(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("product", "size", "colour",)}
+    prepopulated_fields = {"itm_slug": ("product", "size", "colour",)}
 
 admin.site.register(Item, ItemAdimn)
 

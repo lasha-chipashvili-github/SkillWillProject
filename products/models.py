@@ -47,7 +47,7 @@ class Product(models.Model):
     product_description = models.TextField()
     product_category = models.ForeignKey(ProductCategory, on_delete=models.PROTECT, related_name='products')
     product_brand = models.ForeignKey(Brand, on_delete=models.PROTECT, related_name='products')
-    slug = models.SlugField(max_length=255, editable=True, unique=True)
+    prod_slug = models.SlugField(max_length=255, editable=True, unique=True)
     whom_assigned = models.IntegerField(choices=tuple(map(lambda x: (int(x[0]), x[1]), WhomAssigned.choices)),
                                        default=WhomAssigned.WOMEN, verbose_name="whom assigned")
     special_offer = models.BooleanField(default=False)
@@ -66,7 +66,7 @@ class Product(models.Model):
 
 class Item(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='items')
-    slug = models.SlugField(max_length=255, unique=True)
+    itm_slug = models.SlugField(max_length=255, unique=True)
     price = models.DecimalField(max_digits=7, decimal_places=2)
     stock = models.PositiveIntegerField()
     size = models.ForeignKey(Size, blank=True, null=True, on_delete=models.PROTECT, related_name='items')

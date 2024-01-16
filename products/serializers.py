@@ -58,7 +58,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'product_name',
             'product_description',
             'product_category',
-            'slug',
+            'prod_slug',
             'files',
         )
         depth = 10
@@ -75,8 +75,9 @@ class ItemSerializer(serializers.ModelSerializer):
             'date_of_addition',
             'price',
             'stock',
-            'is_available'
+            'is_available',
+            'itm_slug'
         )
         depth = 10
-        lookup_field = 'slug'
+        lookup_field = 'itm_slug'
 

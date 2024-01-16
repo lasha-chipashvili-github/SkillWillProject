@@ -1,7 +1,7 @@
 from django.db import models
 
 from accounts.models import CustomUser
-from products.models import Item
+from products.models import Item, Product
 
 
 # Create your models here.
@@ -25,3 +25,7 @@ class Basket(models.Model):
     def save(self):
         self.total_price = self.get_total_price()
         super(Basket, self).save()
+
+class Favorite(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
