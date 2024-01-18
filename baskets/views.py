@@ -25,7 +25,7 @@ class BasketCreateView(generics.CreateAPIView):
         amount = int(self.request.POST.get('amount'))
 
         item = Item.objects.get(pk=item_id)
-        owner_id = int(self.request.POST.get('owner'))
+        owner_id = self.request.user.id
         owner = CustomUser.objects.get(pk=owner_id)
 
         if item.stock >= amount:

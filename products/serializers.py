@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
-from .models import ProductCategory, Size,  Brand, Colour, Product, Item, ProductImage
+from .models import ProductCategory, Size, Brand, Colour, Product, Item, ProductImage
+
 
 class ProductCategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,6 +23,7 @@ class SizeSerializer(serializers.ModelSerializer):
             'slug',
         )
 
+
 class BrandSerializer(serializers.ModelSerializer):
     class Meta:
         model = Brand
@@ -33,7 +35,6 @@ class BrandSerializer(serializers.ModelSerializer):
 
 
 class ColourSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Colour
         fields = (
@@ -44,13 +45,20 @@ class ColourSerializer(serializers.ModelSerializer):
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
+    files = serializers.FileField(max_length=None, use_url=True, allow_null=True, required=False)
+
     class Meta:
         model = ProductImage
-        fields = ['product', 'files']
+        fields = ['files']
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    files = ProductImageSerializer(read_only=True, many=True)
+    images = ProductImageSerializer(many=True, read_only=True)
+    # uploaded_images = serializers.ListField(
+    #     child=serializers.ImageField(allow_empty_file=False, use_url=False),
+    #     write_only=True
+    # )
+
     class Meta:
         model = Product
         fields = (
@@ -59,11 +67,23 @@ class ProductSerializer(serializers.ModelSerializer):
             'product_description',
             'product_category',
             'prod_slug',
-            'files',
+            'prod_price',
+            'images',
+            # 'uploaded_images'
         )
         depth = 10
 
+    # def create(self, validated_data):
+    #     uploaded_images = validated_data.pop("uploaded_images")
+    #     product = Product.objects.create(**validated_data)
+    #
+    #     for image in uploaded_images:
+    #         ProductImage.objects.create(product=product, files=image)
+    #
+    #     return product
+
 class ItemSerializer(serializers.ModelSerializer):
+    price = serializers.DecimalField(source="product.prod_price", max_digits=7, decimal_places=2)
 
     class Meta:
         model = Item
@@ -80,4 +100,3 @@ class ItemSerializer(serializers.ModelSerializer):
         )
         depth = 10
         lookup_field = 'itm_slug'
-

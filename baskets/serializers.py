@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from products.models import Item
 from .models import Basket, Favorite
+from dj_rest_auth.serializers import UserDetailsSerializer
 
 
 class BasketSerializer(serializers.ModelSerializer):

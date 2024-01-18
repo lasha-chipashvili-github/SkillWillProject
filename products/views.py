@@ -1,11 +1,7 @@
-from django.http import JsonResponse
-from django.views.generic import DetailView
-from rest_framework import generics, viewsets
-from django.views import generic
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import Response
+from rest_framework import generics
 from rest_framework import filters
+from rest_framework.decorators import api_view
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from .models import (
     Item,
@@ -33,8 +29,10 @@ class ProductList(generics.ListAPIView):
     authentication_classes = [] #disables authentication
     permission_classes = [] #disables permission
 
-    queryset = Product.objects.all()
+    parser_class = [MultiPartParser, FormParser]
+
     serializer_class = ProductSerializer
+    queryset = Product.objects.all()
 
     filter_backends = [filters.SearchFilter]
     search_fields = ['product_name', 'product_description']
@@ -44,9 +42,21 @@ class ProductView(generics.RetrieveAPIView):
     authentication_classes = []
     permission_classes = []  # disables permission
 
+
+    serializer_class = ProductSerializer
     queryset = Product.objects.all()
+    lookup_field = 'prod_slug'
+
+
+class ProductDetailView(generics.RetrieveAPIView):
+    authentication_classes = []
+    permission_classes = []
+
     serializer_class = ProductSerializer
     lookup_field = 'prod_slug'
+
+
+
 
 class ItemList(generics.ListAPIView):
     authentication_classes = [] # disables authentication
@@ -70,4 +80,6 @@ class ItemView(generics.RetrieveAPIView):
     queryset = Item.objects.filter(is_available=True)
     serializer_class = ItemSerializer
     lookup_field = 'id'
+
+
 

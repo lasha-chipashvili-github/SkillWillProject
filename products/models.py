@@ -52,12 +52,14 @@ class Product(models.Model):
                                        default=WhomAssigned.WOMEN, verbose_name="whom assigned")
     special_offer = models.BooleanField(default=False)
     new_arrival = models.BooleanField(default=True)
+    prod_price = models.DecimalField(default=0.0, max_digits=7, decimal_places=2)
 
     def __str__(self):
         return self.product_name
 
     def get_absolute_url(self):
         return reverse("product_detail", kwargs={"slug": self.slug})
+
 
     # def save(self, *args, **kwargs):
     #     self.slug = slugify(self.product_name)
@@ -67,7 +69,7 @@ class Product(models.Model):
 class Item(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='items')
     itm_slug = models.SlugField(max_length=255, unique=True)
-    price = models.DecimalField(max_digits=7, decimal_places=2)
+    price = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True)
     stock = models.PositiveIntegerField()
     size = models.ForeignKey(Size, blank=True, null=True, on_delete=models.PROTECT, related_name='items')
     colour = models.ForeignKey(Colour, blank=True, null=True, on_delete=models.PROTECT, related_name='items')
@@ -79,6 +81,14 @@ class Item(models.Model):
     class Meta:
         ordering = ('-date_of_addition',)
 
+
+    def save(self, *args, **kwargs):
+        if not self.price:
+            self.price = self.product.prod_price
+
+        super(Item, self).save(*args, **kwargs)
+
+
     # def save(self, *args, **kwargs):
     #     if not self.slug:
     #         self.slug = slugify(f"{self.product.product_name}-{self.colour}-{self.size}")
@@ -87,8 +97,8 @@ class Item(models.Model):
 
 
 class ProductImage(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)
-    files = models.FileField(upload_to='static/products/',default=None,
+    product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='images')
+    files = models.FileField(upload_to='static/products/', default=None,
                               blank=True, null=True, verbose_name="Images")
 
 # class ItemImage(models.Model):

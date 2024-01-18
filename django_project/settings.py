@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth.registration',
     'drf_spectacular',
+    'whitenoise.runserver_nostatic',
 
     # Local
     'accounts.apps.AccountsConfig',
@@ -66,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware', # front-end back-end დაკავშირებისთვის
     'allauth.account.middleware.AccountMiddleware'
 ]
@@ -202,5 +204,10 @@ AUTHENTICATION_BACKENDS = (
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATICFILES_DIR = BASE_DIR / "static"
+
+
+# STATICFILES_DIRS = [BASE_DIR / "static"]
+# STATIC_ROOT = BASE_DIR / "staticfiles"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"

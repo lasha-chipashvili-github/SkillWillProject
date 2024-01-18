@@ -13,6 +13,7 @@ class Basket(models.Model):
     total_price = models.FloatField(default=0.00)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
 
     # def __str__(self):
     #     return f'{self.item} in basket for {self.owner.email}'
