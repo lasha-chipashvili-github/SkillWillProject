@@ -1,25 +1,29 @@
-from rest_framework import generics
-from rest_framework import filters
-from rest_framework.decorators import api_view
+from drf_spectacular.utils import extend_schema
+from rest_framework import generics, filters
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, schema
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import status
+from rest_framework.schemas import AutoSchema
+
 
 from .models import (
     Item,
     Product,
-    ProductCategory,
-    Size,
-    Brand,
-    Colour,
-    ProductImage,
+    # ProductCategory,
+    # Size,
+    # Brand,
+    # Colour,
+    # ProductImage,
 )
 from .serializers import (
     ItemSerializer,
     ProductSerializer,
-    ProductCategorySerializer,
-    SizeSerializer,
-    BrandSerializer,
-    ColourSerializer,
-    ProductImageSerializer,
+    # ProductCategorySerializer,
+    # SizeSerializer,
+    # BrandSerializer,
+    # ColourSerializer,
+    # ProductImageSerializer,
 )
 
 
@@ -82,4 +86,38 @@ class ItemView(generics.RetrieveAPIView):
     lookup_field = 'id'
 
 
+
+
+
+
+# @api_view(['GET'])
+# def get_product_sizes(request, prod_slug):
+#     product = Product.objects.get(prod_slug=prod_slug)
+#     items = Item.objects.filter(product_id=product.id)
+#     sizes = []
+#     amount = []
+#     for item in items:
+#         if item.is_available:
+#             sizes.append(item.size.size)
+#             amount.append(item.stock)
+#     lst = {sizes[i]: amount[i] for i in range(len(sizes))}
+#     return Response(lst, status=status.HTTP_200_OK)
+
+
+
+
+
+@api_view(['GET'])
+def get_product_sizes(request, prod_slug):
+    product = Product.objects.get(prod_slug=prod_slug)
+    items = Item.objects.filter(product_id=product.id, is_available=True)
+
+    # Use a serializer to define the response schema
+    serializer = ItemSerializer(items, many=True)
+    serialized_data = serializer.data
+
+    # If you want to customize the response format, you can do it here
+    response_data = {item['size']['size']: item['stock'] for item in serialized_data}
+
+    return Response(response_data)
 
