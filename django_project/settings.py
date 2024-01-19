@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-w_hq5kq27_cl0jm_v#g6c%@x@@#pv21#mcq8*6h@uxuzrc^+oc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -165,9 +165,22 @@ REST_FRAMEWORK = {
 ACCOUNT_USERNAME_REQUIRED = False
 
 COSR_ALLOWED_ORIGINS = (
-    'http://127.0.0.1:8000',
-    'http://127.0.0.1:3000',
+    "http://localhost",
+    "http://127.0.0.1",
+    "http://0.0.0.0",
+
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://0.0.0.0:3000",
+
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "http://0.0.0.0:8000",
 )
+
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost", "http://127.0.0.1", "http://0.0.0.0"]
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -206,7 +219,6 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 STATIC_URL = '/static/'
 STATICFILES_DIR = BASE_DIR / "static"
-
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
